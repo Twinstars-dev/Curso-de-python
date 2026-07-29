@@ -66,4 +66,97 @@ print(agente2)
 # texto que haya coincidido con el grupo 1 , es decir, 
 # el grupo (\w) de la expresión regular.
 
+Gestión_de_expresiones_regulares_complejas_con_modo_detallado=""
+# Las expresiones regulares son útiles si el patrón de texto 
+# que necesitas comparar es simple. Sin embargo, comparar patrones 
+# de texto complejos puede requerir expresiones regulares largas y 
+# enrevesadas. Puedes mitigar esta complejidad indicándole a la función
+# re.compile() que ignore los espacios en blanco y los comentarios
+# dentro de la cadena de la expresión regular. Habilita este 
+# "modo detallado" pasando la variable re.VERBOSE como segundo 
+# argumento a re.compile() 
+
+#Dificil: pattern = re.compile(r'((\d{3}|\(\d{3}\))?(\s|-|\.)?\d{3}(\s|-
+#|\.)\d{4}(\s*(ext|x|ext\.)\s*\d{2,5})?)')
+
+#Mas digerible:
+pattern = re.compile(r'''(
+    (\d{3}|\(\d{3}\))?  # Area code
+    (\s|-|\.)?  # Separador
+    \d{3}  # Primeros 3 digitos
+    (\s|-|\.)  # Separador
+    \d{4}  # Ultimos 4 digitos
+    (\s*(ext|x|ext\.)\s*\d{2,5})?  # Extension
+    )''', re.VERBOSE)
+
+#Recomendable usar el modulo Humre 
+
+Combinando_ignorecase_dotall_verbose=""
+algun_regex=re.compile("sal",re.I|re.DOTALL|re.DOTALL)
+# Esta sintaxis es algo anticuada y proviene de versiones antiguas
+# de Python. Los detalles de los operadores bit a bit quedan 
+# fuera del alcance de este libro.
+
+ejemplo=""
+import pyperclip
+paso1=""
+telefono_regex=re.compile(r'''(
+    (\d{3}|\(\d{3}\))? #Codigo de area opcional
+    (\s|-|\.)? #separador
+    (\d{3}) #primeros 3 digitos
+    (\s|-|\.) #separador
+    (\d{4}) #ultimos 4 digitos
+    (\s*(ext|x|ext\.)\s*(\d{2,5}))? #extension   
+    )''',re.VERBOSE) #La última parte es unextensión opcional compuesta por cualquier número de espacios seguidos de ext , x o ext. , seguidos de dos a cinco dígitos.
+
+paso2=""
+email_regex=re.compile(r'''(
+    [a-zA-Z0-0._%+-]+ # Nombre de usuario
+    @   # arroba simbolo
+    [a-zA-Z0-9.-]+  # nombre del dominio
+    (\.[a-zA-Z]{2,4}) #con algo 
+    )''',re.VERBOSE) #email completo
+
+paso3=""
+texto=str(pyperclip.paste())
+coincidencias=[]
+for groups in telefono_regex.findall(texto):
+    telefono='-'.join([groups[1],groups[3],groups[5]])
+    if [groups[6]!= '']:
+        telefono+= 'x' + groups[6]
+    coincidencias.append(telefono)
+
+for groups in email_regex.findall(texto):
+    coincidencias.append(groups[0])
+
+paso4=""
+if len(coincidencias)>0:
+    pyperclip.copy('\n'.join(coincidencias))
+    print("copiado al portapapeles")
+    print('\n'.join(coincidencias))
+else:
+    print("Telefono o Email no encontrados")
+
+HUMRE=""
+#no tan usado
+
+RESUMEN= " "
+# Si bien una computadora puede buscar texto rápidamente,
+# es necesario indicarle con precisión qué buscar. 
+# Las expresiones regulares permiten especificar el patrón de 
+# caracteres que se busca, en lugar del texto exacto. De hecho,
+# algunas aplicaciones de procesamiento de texto y hojas de 
+# cálculo ofrecen funciones de búsqueda y reemplazo que permiten 
+# buscar mediante expresiones regulares. La sintaxis de las expresiones
+# regulares, rica en signos de puntuación, se compone de calificadores
+# que detallan qué caracteres deben coincidir y cuantificadores que 
+# detallan cuántos deben coincidir.
+
+# El módulo `re` que viene con Python te permite compilar una cadena 
+# de expresiones regulares en un objeto `Pattern` . Estos objetos 
+# tienen varios métodos: `search()` , para encontraruna sola 
+# coincidencia; findall() , para encontrar todas las instancias 
+# coincidentes; y sub() , para realizar una sustitución de texto
+# mediante búsqueda y reemplazo.
+
 
